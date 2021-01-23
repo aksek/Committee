@@ -1,10 +1,16 @@
+from typing import Any, Union
+
 import pandas as pd
+from pandas import DataFrame, Series
+from pandas.io.parsers import TextFileReader
 from sklearn.ensemble import VotingClassifier
 from sklearn.metrics import confusion_matrix, accuracy_score, precision_score, recall_score, f1_score
 from sklearn.model_selection import train_test_split
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.svm import SVC
 from sklearn.tree import DecisionTreeClassifier
+
+import committee as cmt
 
 
 def calculate_metrics(model, X_test, y_test):
@@ -19,7 +25,7 @@ def calculate_metrics(model, X_test, y_test):
     return cm
 
 
-# Loading some example data
+# Loading data
 df = pd.read_csv("citrus.csv")
 
 # split columns
@@ -27,17 +33,21 @@ X = df.drop("name", axis=1)
 y = df["name"].values
 
 # split into training and testing sets
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=71830)
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=71830, shuffle=False)
+
+print('y_test')
+print(y_test)
 
 # Training classifiers
 clf1 = DecisionTreeClassifier(max_depth=4)
 clf2 = KNeighborsClassifier(n_neighbors=7)
 clf3 = SVC(kernel='rbf', probability=True)
-eclf = VotingClassifier(estimators=[('dt', clf1), ('knn', clf2), ('svc', clf3)], voting='hard', weights=[2, 1, 2])
+# eclf = VotingClassifier(estimators=[('dt', clf1), ('knn', clf2), ('svc', clf3)], voting='hard', weights=[2, 1, 2])
+eclf = cmt.CommitteeClassifier([clf1, clf2, clf3])
 
-clf1 = clf1.fit(X_train, y_train)
-clf2 = clf2.fit(X_train, y_train)
-clf3 = clf3.fit(X_train, y_train)
+# clf1 = clf1.fit(X_train, y_train)
+# clf2 = clf2.fit(X_train, y_train)
+# clf3 = clf3.fit(X_train, y_train)
 eclf = eclf.fit(X_train, y_train)
 
 calculate_metrics(eclf, X_test, y_test)
