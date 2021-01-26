@@ -4,6 +4,7 @@ from statistics import mean
 import pandas as pd
 from sklearn.metrics import confusion_matrix, accuracy_score, precision_score, recall_score, f1_score
 from sklearn.model_selection import train_test_split
+from sklearn.naive_bayes import GaussianNB
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.svm import SVC
 from sklearn.tree import DecisionTreeClassifier
@@ -25,6 +26,13 @@ def calculate_metrics(model, X_test, y_test):
     return acc, precision, recall, f_score
 
 
+# # load data
+# df = pd.read_csv("citrus.csv")
+#
+# # split columns
+# X = df.drop("name", axis=1)
+# y = df["name"].values
+
 # load data
 df = pd.read_csv("citrus.csv")
 
@@ -37,15 +45,15 @@ precision = []
 recall = []
 f_score = []
 
-for i in range(1):
+for i in range(25):
     # split into training and testing sets
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2)
 
     # initialize classifiers
-    # clf1 = DecisionTreeClassifier(max_depth=4)
+    # clf1 = DecisionTree()
     # clf2 = KNeighborsClassifier(n_neighbors=7)
     # clf3 = SVC(kernel='rbf', probability=True)
-    clf4 = DecisionTree()
+    clf4 = GaussianNB()
 
     # initialize and fit the voting classifier
     eclf = cmt.CommitteeClassifier([clf4])
