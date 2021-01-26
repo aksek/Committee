@@ -135,7 +135,7 @@ class DecisionTree:
             return DecisionTree.Node(None, df[classes].unique()[0], None, isinstance(df[classes].unique()[0], str))
         # sprawdź, czy zbiór atrybutów jest pusty
         if len(input_attributes) == 0:
-            return DecisionTree.Node(None, df[classes].mode(), None, isinstance(df[classes].mode(), str))
+            return DecisionTree.Node(None, df[classes].mode().iat[0], None, isinstance(df[classes].mode().iat[0], str))
 
         df_copy = df.copy()
 
