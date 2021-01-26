@@ -11,20 +11,20 @@ def calculate_metrics(model, X_test, y_test):
     pred = model.predict(X_test)
     cm = confusion_matrix(y_test, pred)
     acc = accuracy_score(y_test, pred)
-    precision = precision_score(y_test, pred, pos_label='grapefruit')
-    recall = recall_score(y_test, pred, pos_label='grapefruit')
-    f_score = f1_score(y_test, pred, pos_label='grapefruit')
+    precision = precision_score(y_test, pred, pos_label='yes')
+    recall = recall_score(y_test, pred, pos_label='yes')
+    f_score = f1_score(y_test, pred, pos_label='yes')
     print('Accuracy: {}\nPrecision: {}\nRecall: {}\nF1_score: {}'.format(
         acc, precision, recall, f_score))
     return cm
 
 
 # Loading some example data
-df = pd.read_csv("citrus.csv")
+df = pd.read_csv("tennis.csv")
 
 # split columns
-X = df.drop("name", axis=1)
-y = df["name"].values
+X = df.drop("play", axis=1)
+y = df["play"].values
 
 # split into training and testing sets
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=71830)
