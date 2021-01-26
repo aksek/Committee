@@ -39,7 +39,7 @@ class CommitteeClassifier:
 
     def predict(self, X):
         if self.is_fitted:
-            predictions = np.asarray([clf.predict(X) for clf in self.classifiers])
+            predictions: np.ndarray = np.asarray([clf.predict(X) for clf in self.classifiers])
             majority = stats.mode(predictions)
             return majority[0][0]
         else:
