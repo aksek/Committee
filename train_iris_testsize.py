@@ -47,7 +47,7 @@ for size in range(86, 0, -2):
         clf4 = GaussianNB()
 
         # initialize and fit the voting classifier
-        eclf = cmt.CommitteeClassifier([clf1, clf2, clf3, clf4])
+        eclf = cmt.CommitteeClassifier([clf1])
         eclf = eclf.fit(X_train, y_train)
 
         # test the result
@@ -69,4 +69,4 @@ plt.plot(range(86, 0, -2), mean_precision, 'r-')
 plt.plot(range(86, 0, -2), mean_recall, 'g-')
 plt.plot(range(86, 0, -2), mean_f_score, 'y-')
 ax.set_ylim(ymin=0)
-plt.savefig('metrics_testsize_4_2.png')
+plt.savefig('metrics_testsize_one_4_2.png')
