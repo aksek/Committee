@@ -44,7 +44,7 @@ for classifiers in test_cases:
         encoded_X_train, encoded_X_test = train_test_split(encoded_X, test_size=0.2, random_state=rand)
 
         # initialize and fit the voting classifier
-        eclf = CommitteeClassifier([clf1, clf2])
+        eclf = CommitteeClassifier(classifiers)
         eclf = eclf.fit(X_train, y_train, encoded_X=encoded_X_train)
 
         # test the result

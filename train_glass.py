@@ -2,7 +2,6 @@
 from statistics import mean
 
 import pandas as pd
-from sklearn.metrics import confusion_matrix, accuracy_score, precision_score, recall_score, f1_score
 from sklearn.model_selection import train_test_split
 from sklearn.naive_bayes import GaussianNB
 from sklearn.neighbors import KNeighborsClassifier
@@ -11,7 +10,6 @@ from sklearn.svm import SVC
 import committee as cmt
 from decisionTree import DecisionTree
 from utility import calculate_metrics
-
 
 # load data
 df = pd.read_csv("glass.csv")
