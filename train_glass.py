@@ -52,7 +52,7 @@ for classifiers in test_cases:
         f_score.append(f)
         print(str((i + 1) * 4) + "%")
 
-    print(test_number)
+    print("test: ", test_number)
     print("Accuracy: " + str(mean(accuracy)))
     print("Precision: " + str(mean(precision)))
     print("Recall: " + str(mean(recall)))
