@@ -78,7 +78,7 @@ class DecisionTree:
                 att_entropy = entropy_in_a + entropy_in_b
 
             t_inf_gain = set_entropy - att_entropy
-            if t_inf_gain > inf_gain:
+            if t_inf_gain >= inf_gain:
                 inf_gain = t_inf_gain
                 attribute_name = att
                 if isinstance(unique_values[0], str):
@@ -126,10 +126,6 @@ class DecisionTree:
 
     # zakładam, że classes zawiera nazwe kolumny z klasami
     def create_tree(self, classes, input_attributes, df):
-        if df.shape[0] == 0:
-            print('Error: The set is empty')
-            return None
-
         # sprawdź, czy elementy są tej samej klasy
         if len(df[classes].unique()) == 1:
             return DecisionTree.Node(None, df[classes].unique()[0], None, isinstance(df[classes].unique()[0], str))
@@ -157,8 +153,14 @@ class DecisionTree:
             split_value = is_string[0]
             df_a = df_copy[df_copy[attribute_d] < split_value]
             df_b = df_copy[df_copy[attribute_d] >= split_value]
-            children_list.append(DecisionTree.create_tree(self, classes, input_attributes, df_a))
-            children_list.append(DecisionTree.create_tree(self, classes, input_attributes, df_b))
+            if df_a.shape[0] == 0:
+                children_list.append(DecisionTree.Node(None, df[classes].mode().iat[0], None, isinstance(df[classes].mode().iat[0], str)))
+            else:
+                children_list.append(DecisionTree.create_tree(self, classes, input_attributes, df_a))
+            if df_b.shape[0] == 0:
+                children_list.append(DecisionTree.Node(None, df[classes].mode().iat[0], None, isinstance(df[classes].mode().iat[0], str)))
+            else:
+                children_list.append(DecisionTree.create_tree(self, classes, input_attributes, df_b))
             return DecisionTree.Node(attribute_d, split_value, children_list, False)
 
     def innerPredict(self, attributes, x):
@@ -194,17 +196,3 @@ class DecisionTree:
             for index, x in X.iterrows():
                 y.append(self.innerPredict(list(X.columns.values), x))
             return np.asarray(y)
-
-
-def main():
-    df = pd.read_csv("citrus.csv")
-    attr = list(df.columns.values)
-
-    attr.remove('name')
-    print(attr)
-    #        tree = create_tree('name', attr, df)
-    print("cosik")
-
-
-if __name__ == '__main__':
-    main()
