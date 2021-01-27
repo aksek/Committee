@@ -7,7 +7,6 @@ from sklearn.model_selection import train_test_split
 from sklearn.naive_bayes import GaussianNB
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.svm import SVC
-from sklearn.tree import DecisionTreeClassifier
 
 import committee as cmt
 from decisionTree import DecisionTree
@@ -43,9 +42,9 @@ for i in range(25):
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2)
 
     # initialize classifiers
-    # clf1 = DecisionTree()
-    # clf2 = KNeighborsClassifier(n_neighbors=7)
-    # clf3 = SVC(kernel='rbf', probability=True)
+    clf1 = DecisionTree()
+    clf2 = KNeighborsClassifier(n_neighbors=7)
+    clf3 = SVC(kernel='rbf', probability=True)
     clf4 = GaussianNB()
 
     # initialize and fit the voting classifier
