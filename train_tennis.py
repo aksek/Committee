@@ -19,7 +19,7 @@ def calculate_metrics(model, X_test, y_test):
     pred = model.predict(X_test)
     cm = confusion_matrix(y_test, pred)
     acc = accuracy_score(y_test, pred)
-    precision = precision_score(y_test, pred, pos_label=1)
+    precision = precision_score(y_test, pred, pos_label=1, zero_division=0)
     recall = recall_score(y_test, pred, pos_label=1)
     f_score = f1_score(y_test, pred, pos_label=1)
     # print('Confusion matrix:\n', cm)

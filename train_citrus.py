@@ -17,7 +17,7 @@ def calculate_metrics(model, X_test, y_test):
     pred = model.predict(X_test)
     cm = confusion_matrix(y_test, pred)
     acc = accuracy_score(y_test, pred)
-    precision = precision_score(y_test, pred, pos_label='grapefruit')
+    precision = precision_score(y_test, pred, pos_label='grapefruit', zero_division=0)
     recall = recall_score(y_test, pred, pos_label='grapefruit')
     f_score = f1_score(y_test, pred, pos_label='grapefruit')
     # print('Confusion matrix:\n', cm)
@@ -25,13 +25,6 @@ def calculate_metrics(model, X_test, y_test):
     #     acc, precision, recall, f_score))
     return acc, precision, recall, f_score
 
-
-# # load data
-# df = pd.read_csv("citrus.csv")
-#
-# # split columns
-# X = df.drop("name", axis=1)
-# y = df["name"].values
 
 # load data
 df = pd.read_csv("citrus.csv")
@@ -65,6 +58,7 @@ for i in range(25):
     precision.append(prec)
     recall.append(rec)
     f_score.append(f)
+    print(str(i * 4) + "%")
 
 print("Accuracy: " + str(mean(accuracy)))
 print("Precision: " + str(mean(precision)))
