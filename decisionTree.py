@@ -146,7 +146,10 @@ class DecisionTree:
             for v in unique_values:
                 # podziel zbior
                 df_bis = df_copy[df_copy[attribute_d] == v]
-                children_list.append(DecisionTree.create_tree(self, classes, input_attributes, df_bis))
+                if df_bis.shape[0] == 0:
+                    children_list.append(DecisionTree.Node(None, df[classes].mode().iat[0], None, isinstance(df[classes].mode().iat[0], str)))
+                else:
+                    children_list.append(DecisionTree.create_tree(self, classes, input_attributes, df_bis))
             return DecisionTree.Node(attribute_d, unique_values, children_list,
                                      isinstance(df[attribute_d].unique()[0], str))
         else:
