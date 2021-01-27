@@ -48,7 +48,7 @@ for i in range(25):
     clf4 = GaussianNB()
 
     # initialize and fit the voting classifier
-    eclf = cmt.CommitteeClassifier([clf4])
+    eclf = cmt.CommitteeClassifier([clf1])
     eclf = eclf.fit(X_train, y_train)
 
     # test the result
