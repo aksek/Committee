@@ -28,8 +28,9 @@ class CommitteeClassifier:
                 temp_X = X[i::len(self.classifiers)]
             else:
                 if encoded_X is None:
-                    raise RuntimeError("These classifiers need encoded data")
-                temp_X = encoded_X[i::len(self.classifiers)]
+                    temp_X = X[i::len(self.classifiers)]
+                else:
+                    temp_X = encoded_X[i::len(self.classifiers)]
             split_X.append(temp_X)
             temp_y = y[i::len(self.classifiers)]
             split_y.append(temp_y)
@@ -47,8 +48,11 @@ class CommitteeClassifier:
 
     def predict(self, X, X_encoded=None):
         if self.is_fitted:
-            X_encoded = X_encoded.dropna()
-            predictions: np.ndarray = np.asarray([clf.predict(X if isinstance(clf, DecisionTree) else X_encoded) for clf in self.classifiers])
+            if X_encoded is not None:
+                predictions: np.ndarray = np.asarray([clf.predict(X if isinstance(clf, DecisionTree) else X_encoded) for clf in self.classifiers])
+            else:
+                predictions: np.ndarray = np.asarray([clf.predict(X) for clf in self.classifiers])
+
             majority = stats.mode(predictions)
             return majority[0][0]
         else:

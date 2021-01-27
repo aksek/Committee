@@ -16,6 +16,7 @@ def encode(df):
     if not (encoded.size == 0):
         train_ohe = pd.DataFrame(encoded, columns=np.hstack(encoder.categories_))
         X = pd.concat((X, train_ohe), axis=1).drop(categoricals, axis=1)
+        X = X.dropna()
         return X
     else:
         return df
