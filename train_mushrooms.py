@@ -3,7 +3,6 @@ import random
 from statistics import mean
 
 import pandas as pd
-from sklearn.metrics import confusion_matrix, accuracy_score, precision_score, recall_score, f1_score
 from sklearn.model_selection import train_test_split
 from sklearn.naive_bayes import GaussianNB
 from sklearn.neighbors import KNeighborsClassifier
@@ -11,20 +10,8 @@ from sklearn.svm import SVC
 
 from committee import CommitteeClassifier
 from decisionTree import DecisionTree
-from encoder import encode
-
-
-def calculate_metrics(model, X_test, y_test, *, encoded_X=None):
-    pred = model.predict(X_test, X_encoded=encoded_X)
-    cm = confusion_matrix(y_test, pred)
-    acc = accuracy_score(y_test, pred)
-    precision = precision_score(y_test, pred, zero_division=0, average='micro')
-    recall = recall_score(y_test, pred, average='micro')
-    f_score = f1_score(y_test, pred, average='micro')
-    # print('Confusion matrix:\n', cm)
-    # print('Accuracy: {}\nPrecision: {}\nRecall: {}\nF1_score: {}'.format(
-    #     acc, precision, recall, f_score))
-    return acc, precision, recall, f_score
+from utility import calculate_metrics
+from utility import encode
 
 # load data
 df = pd.read_csv("mushrooms.csv")
@@ -39,7 +26,7 @@ precision = []
 recall = []
 f_score = []
 
-for i in range(1):
+for i in range(25):
     # split into training and testing sets
     rand = random.randrange(100000)
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=rand)
